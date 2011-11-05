@@ -16,11 +16,18 @@
 #
 from google.appengine.ext import webapp
 from google.appengine.ext.webapp import util
+from google.appengine.ext.webapp import template
 
+import os, re
 
 class MainHandler(webapp.RequestHandler):
-    def get(self):
-        self.response.out.write('Coming soon.')
+    def get(self):        
+        template_values = {}
+        
+        #Check for mobile or web version by domain name
+        
+        path = os.path.join(os.path.dirname(__file__), 'static', 'html', 'web.html')
+        self.response.out.write(template.render(path, template_values))
 
 
 def main():
