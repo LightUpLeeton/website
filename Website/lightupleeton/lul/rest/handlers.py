@@ -1,4 +1,4 @@
-from prestans import handlers
+from prestans import handlers, rest
 
 class LocationRESTRequestHandler(handlers.RESTRequestHandler):
     def get(self, location_id):
