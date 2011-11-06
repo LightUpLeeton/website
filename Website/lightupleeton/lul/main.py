@@ -31,6 +31,8 @@ class MainHandler(webapp.RequestHandler):
 class ManageHandler(webapp.RequestHandler):
     def get(self):
         
+        template_values = {}
+        
         #Check for mobile or web version by domain name
         
         path = os.path.join(os.path.dirname(__file__), '..', 'static', 'html', 'manage-web.html')
