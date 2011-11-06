@@ -16,6 +16,13 @@ handlers:
   
 - url: /img
   static_dir: static/img
+
+- url: /api/.*
+  script: lul/api.py
+  
+- url: /manage
+  login: required
+  script: lul/main.py
   
 - url: .*
-  script: main.py
+  script: lul/main.py

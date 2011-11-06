@@ -26,12 +26,19 @@ class MainHandler(webapp.RequestHandler):
         
         #Check for mobile or web version by domain name
         
-        path = os.path.join(os.path.dirname(__file__), 'static', 'html', 'web.html')
+        path = os.path.join(os.path.dirname(__file__), '..', 'static', 'html', 'web.html')
+        self.response.out.write(template.render(path, template_values))
+class ManageHandler(webapp.RequestHandler):
+    def get(self):
+        
+        #Check for mobile or web version by domain name
+        
+        path = os.path.join(os.path.dirname(__file__), '..', 'static', 'html', 'manage-web.html')
         self.response.out.write(template.render(path, template_values))
 
 
 def main():
-    application = webapp.WSGIApplication([('/', MainHandler)],
+    application = webapp.WSGIApplication([('/', MainHandler), ('/manage', ManageHandler)],
                                          debug=True)
     util.run_wsgi_app(application)
 
