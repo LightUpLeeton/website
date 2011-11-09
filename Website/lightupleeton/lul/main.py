@@ -35,6 +35,7 @@ class ManageHandler(webapp.RequestHandler):
         template_values = {}
         
         #Check for mobile or web version by domain name
+        #import urlparse
         
         path = os.path.join(os.path.dirname(__file__), '..', 'static', 'html', 'manage-web.html')
         self.response.out.write(template.render(path, template_values))

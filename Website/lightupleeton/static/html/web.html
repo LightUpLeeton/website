@@ -8,6 +8,7 @@
     <link rel="stylesheet" type="text/css" href="/css/lul-web.css" />
     
     <script type="text/javascript" src="js/jquery-1.7.min.js"></script>
+    <script type="text/javascript" src="js/json2.js"></script>
     <script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?sensor=false"></script>
     <script type="text/javascript" src="js/lul-web.js"></script>
 </head>
@@ -18,18 +19,19 @@
             <img src="img/logo.jpg" width="300" alt="Logo"/>
             <div class="location-form">
             <h3>Submit Address</h3>
-            <p>Submit a new address using the form below.</p>
+            <p>Are you going to light up your house in Leeton for 2011? Then submit your address here!</p>
                 <form class="form-stacked">
                     <fieldset>
                         <div class="clearfix">
                             <label for="location-address">Address</label>
                             <div class="input">
-                                <input id="location-address" class="medium" size="30" type="text" />
+                                <input id="address-box" class="medium" size="30" type="text" />
+                                <input id="verify-button" class="btn" type="button" value="Verify" />
                             </div>
                         </div>
                     </fieldset>
                     <fieldset>
-                        <input id="submit-button" class="btn primary" type="button" value="Submit" />
+                        <input id="submit-button" disabled class="btn primary" type="button" value="Submit" />
                     </fieldset>
                 </form>
             </div>
@@ -38,9 +40,9 @@
         <div class="span10">
         <div class="row">
             <div class="toolbar">
-                <input id="searchBox" class="xlarge" size="50" type="text" />
-                <input class="btn" type="button" value="Search"/>
-                <input class="btn" type="button" value="Locate Me"/>
+                <input id="search-box" class="xlarge" size="50" type="text" />
+                <input id="search-button" class="btn" type="button" value="Search"/>
+                <input id="locate-button" class="btn" type="button" value="Locate Me"/>
             </div>
         </div>
         <div class="row">
