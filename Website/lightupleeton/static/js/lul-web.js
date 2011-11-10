@@ -32,6 +32,10 @@ function wireEvents() {
         $("#locate-button").click(locateButtonClicked);
     else
         $("#locate-button").hide();
+        
+    $("#success-alert-close").click(function(event) {
+        $("#submit-success-alert").hide();
+    });
 }
 
 /************************
@@ -84,8 +88,15 @@ function submitButtonClicked() {
                     url: '/api/location',
                     data: JSON.stringify(location),
                     dataType: 'json',
-                    success: function(data) {
-                        console.log(data);
+                    success: function(data, textStatus) {
+                        if(textStatus == "success") {
+                            $("#submit-success-alert").show();
+                            $("#address-box").val("");
+                            $('#submit-button').attr("disabled", true);
+                        }
+                        else {
+                            $("#submit-error-alert").show();
+                        }
                     }
                 });
                 

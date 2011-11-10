@@ -25,3 +25,13 @@
     padding: 20px;
     height: 550px;
 }
+
+#submit-success-alert {
+    display: none;
+    width: 250px;
+}
+
+#submit-error-alert {
+    display: none;
+    width: 250px;
+}
