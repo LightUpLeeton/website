@@ -166,13 +166,11 @@ function search(latitude, longitude) {
                 //add the matching locations
                 for(var index = 0; index < data.results.length; index++) {
                     
-                    console.log(data.results[index]);
-                    
                     var latLng_ = new google.maps.LatLng(data.results[index]["latitude"], data.results[index]["longitude"]);
                     var marker_ = new google.maps.Marker({
                         'map': map,
                         'position': latLng_,
-                        //'icon': '/site/web/images/'+facility_.getFacilityType().getMarkerName()
+                        'icon': '/img/gift.png',
                         'animation': google.maps.Animation.DROP
                     });
                     markers.push(marker_);
