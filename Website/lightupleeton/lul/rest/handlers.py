@@ -4,6 +4,10 @@ from prestans import handlers, rest, types
 import lul.models
 import lul.rest.models
 import lul.rest.parsers
+from geo import *
+from datetime import datetime
+
+
 
 class LocationRESTRequestHandler(handlers.RESTRequestHandler):
     
@@ -17,6 +21,7 @@ class LocationRESTRequestHandler(handlers.RESTRequestHandler):
         rest_model.address = persistent_model.address
         rest_model.latitude = persistent_model.location.lat
         rest_model.longitude = persistent_model.location.lon
+        rest_model.current = persistent_model.updated_date.year == datetime.now().year and not persistent_model.added_by_committee
         
         return rest_model
         
@@ -27,12 +32,25 @@ class LocationRESTRequestHandler(handlers.RESTRequestHandler):
             rest_models.append(self.as_rest_model(persistent_model))
         return rest_models
 
-    def get(self, location_id):
-        location_query = lul.models.Location.all()
-        locations = location_query.fetch(location_query.count())
+    def locations_around_point(self, latitude, longitude, radius = 10.0):
+                results = lul.models.Location.proximity_fetch(
+                        lul.models.Location.all(),
+                        geotypes.Point(latitude, longitude),
+                        max_results = 200,
+                        max_distance = radius * 1000
+                )
+                return results;
         
-        self.response.http_status = rest.STATUS.OK
-        self.response.set_body_attribute('results', self.as_rest_models(locations))
+    def get(self, location_id):
+    
+        if isinstance(self.request.parameter_set, lul.rest.parsers.LocationSearchParameterSet):
+            locations = self.locations_around_point(self.request.parameter_set.latitude, self.request.parameter_set.longitude, self.request.parameter_set.radius)
+        
+            self.response.http_status = rest.STATUS.OK
+            self.response.set_body_attribute('results', self.as_rest_models(locations))
+        else:
+            self.response.http_status = rest.STATUS.NOT_FOUND
+            self.response.set_body_attribute('message', 'Unsupported Request')
     
     def post(self, location_id):
         location_rest = self.request.parsed_body_model
@@ -52,7 +70,8 @@ class LocationRESTRequestHandler(handlers.RESTRequestHandler):
         #Check if user is logged in, then it must be submitted by committee
         if users.get_current_user():
             location_persistent.added_by_committee = True
-            
+        
+        location_persistent.update_location()
         location_persistent.put()
     
         self.response.http_status = rest.STATUS.OK

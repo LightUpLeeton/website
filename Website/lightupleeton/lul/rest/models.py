@@ -7,6 +7,3 @@ class Location(types.Model):
     longitude = types.Float(required=True)
     current = types.Boolean(required=True, default=False)
     
-class Test(types.Model):
-    id = types.Integer(required=True, default=1)
-    

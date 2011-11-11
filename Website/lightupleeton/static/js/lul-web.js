@@ -1,5 +1,8 @@
 var map;
+var userMarker = null;
+var markers = new Array();
 var locating = false;
+var geocoder_ = new google.maps.Geocoder();
 
 function initializeMap() {
     var mapOptions = {
@@ -39,6 +42,10 @@ function wireEvents() {
 }
 
 /************************
+Google Maps
+*************************/
+
+/************************
 Verify
 ************************/
 
@@ -48,7 +55,6 @@ function addressBoxKeyDown() {
 }
 
 function verifyButtonClicked() {
-    var geocoder_ = new google.maps.Geocoder();
     geocoder_.geocode({'address': $("#address-box").val()}, function(response, statusCode){
         if (statusCode == google.maps.GeocoderStatus.OK) {
             //var location_ = response[0]['geometry']['location'];
@@ -73,7 +79,6 @@ function submitButtonClicked() {
     //grab the valid address
     var addess_ = $('#address-box').val();
     
-    var geocoder_ = new google.maps.Geocoder();
     geocoder_.geocode({'address': addess_}, function(response, statusCode){
         if (statusCode == google.maps.GeocoderStatus.OK) {
                 
@@ -110,7 +115,80 @@ Search
 ************************/
 
 function searchButtonClicked() {
-    console.log("click");   
+    
+    var addess_ = $('#search-box').val();
+    
+    //geocode the address in the search bar
+    geocoder_.geocode({'address': addess_}, function(response, statusCode){
+        if (statusCode == google.maps.GeocoderStatus.OK) {
+            $('#search-box').val(response[0]['formatted_address']);
+            search(response[0]['geometry']['location'].lat(), response[0]['geometry']['location'].lng());
+        }
+    });
+    
+    
+}
+
+function search(latitude, longitude) {
+    $.ajax({
+        type: 'GET',
+        url: '/api/location/all',
+        data: {
+            "latitude" : latitude,
+            "longitude" : longitude
+        },
+        success: function(data, textStatus) {
+            if(textStatus == "success") {
+                
+                //show the user marker, center the map
+                var latLng_ = new google.maps.LatLng(latitude, longitude);
+                
+                //remove old user marker
+                if(userMarker)
+                    userMarker.setMap(null);
+                
+                userMarker = new google.maps.Marker({
+                    'map': map,
+                    'position': latLng_,
+                    'title': 'You are here'
+                });
+                map.setCenter(latLng_);
+                
+                //remove old locations
+                for(var index = 0; index < markers.length; index++) {
+                    markers[index].setMap(null);
+                }
+                
+                //setup map bounds
+                var latLngBounds_ = new google.maps.LatLngBounds();
+                latLngBounds_.extend(userMarker.getPosition());
+                
+                //add the matching locations
+                for(var index = 0; index < data.results.length; index++) {
+                    
+                    console.log(data.results[index]);
+                    
+                    var latLng_ = new google.maps.LatLng(data.results[index]["latitude"], data.results[index]["longitude"]);
+                    var marker_ = new google.maps.Marker({
+                        'map': map,
+                        'position': latLng_,
+                        //'icon': '/site/web/images/'+facility_.getFacilityType().getMarkerName()
+                        'animation': google.maps.Animation.DROP
+                    });
+                    markers.push(marker_);
+        
+                    latLngBounds_.extend(latLng_);
+                    
+                }
+                
+                map.fitBounds(latLngBounds_);
+                
+            }
+            else {
+                console.log("error")
+            }
+        }
+    });
 }
 
 /************************
