@@ -2,8 +2,9 @@ from google.appengine.api import users
 from google.appengine.ext import db
 from prestans import handlers, rest, types
 import lul.models
+from lul.rest import parsers
 import lul.rest.models
-import lul.rest.parsers
+#import lul.rest.parsers
 from geo import *
 from datetime import datetime
 
@@ -11,7 +12,7 @@ from datetime import datetime
 
 class LocationRESTRequestHandler(handlers.RESTRequestHandler):
     
-    request_parser = lul.rest.parsers.LocationRequestParser()
+    request_parser = parsers.LocationRequestParser()
     
     def as_rest_model(self, persistent_model):
         
