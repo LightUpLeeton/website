@@ -167,10 +167,13 @@ function search(latitude, longitude) {
                 for(var index = 0; index < data.results.length; index++) {
                     
                     var latLng_ = new google.maps.LatLng(data.results[index]["latitude"], data.results[index]["longitude"]);
+                    
+                    var image_ = (data.results[index]["current"] ? "/img/ornament_green.png" : "/img/ornament_red.png");
+                    
                     var marker_ = new google.maps.Marker({
                         'map': map,
                         'position': latLng_,
-                        'icon': '/img/gift.png',
+                        'icon': image_,
                         'animation': google.maps.Animation.DROP
                     });
                     markers.push(marker_);
