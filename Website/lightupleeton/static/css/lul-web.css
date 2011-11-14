@@ -1,10 +1,19 @@
-.container {
-    margin-top:30px;
+.left {
+	float: left;
+	width: 300px;
+    height: 700px;
+    margin: 0px 0px 30px 100px;
+}
+
+.right {
+    min-width: 500px;
+    margin: 30px 100px 30px 430px;
+	height: 700px;
 }
 
 .toolbar {
-    padding: 20px;
-    margin-top: 10px;
+    min-width: 460px;
+    padding: 20px 0px 0px 40px;
 }
 
 .center {
@@ -22,8 +31,9 @@
 }
 
 #map {
-    padding: 20px;
-    height: 550px;
+    margin: 20px 20px 0px 20px;
+    min-height: 500px;
+    height: 99%;
 }
 
 #submit-success-alert {
