@@ -44,11 +44,12 @@
                 <form class="form-stacked">
                     <fieldset>
                         <div class="clearfix">
-                            <label for="location-address">Address</label>
+                            <label for="address-box">Address</label>
                             <div class="input">
                                 <input id="address-box" class="medium" size="30" type="text" />
                                 <input id="verify-button" class="btn" type="button" value="Verify" />
                             </div>
+                            
                         </div>
                     </fieldset>
                     <fieldset>
@@ -59,10 +60,17 @@
             <iframe src="//www.facebook.com/plugins/likebox.php?href=http%3A%2F%2Fwww.facebook.com%2Fpages%2FLight-Up-Leeton%2F239216016133816&amp;width=292&amp;height=290&amp;colorscheme=light&amp;show_faces=true&amp;border_color&amp;stream=false&amp;header=true&amp;appId=149438575138898" scrolling="no" frameborder="0" style="border:none; overflow:hidden; width:292px; height:290px;" allowTransparency="true"></iframe>
         </div>
         <div class="right">
-            <div class="toolbar">
-                <input id="search-box" class="xlarge" size="50" type="text" />
-                <input id="search-button" class="btn" type="button" value="Search"/>
-                <input id="locate-button" class="btn" type="button" value="Locate Me"/>
+            <div class="search-toolbar">
+                    <input id="search-box" class="xlarge" size="50" type="text" />
+                    <input id="search-button" class="btn" type="button" value="Search"/>
+                    <input id="locate-button" class="btn" type="button" value="Locate Me"/>
+                    
+            </div>
+            <div class="toggle-toolbar">
+                <span>This year</span>
+                <input id="check-current" checked type="checkbox"/>
+                <span>Previous years</span>
+                <input id="check-previous" checked type="checkbox"/>
             </div>
             <div id="map"></div>
         </div>

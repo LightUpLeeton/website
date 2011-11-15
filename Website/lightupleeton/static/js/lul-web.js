@@ -1,8 +1,10 @@
 var map;
 var userMarker = null;
+var locations = new Array();
 var markers = new Array();
 var locating = false;
 var geocoder_ = new google.maps.Geocoder();
+var latLngBounds_ = null;
 
 function initializeMap() {
     var mapOptions = {
@@ -39,6 +41,10 @@ function wireEvents() {
     $("#success-alert-close").click(function(event) {
         $("#submit-success-alert").hide();
     });
+    
+    //check boxes
+    $("#check-current").change(addMarkersToMap);
+    $("#check-previous").change(addMarkersToMap);
 }
 
 /************************
@@ -146,43 +152,20 @@ function search(latitude, longitude) {
                 //remove old user marker
                 if(userMarker)
                     userMarker.setMap(null);
-                
+                    
                 userMarker = new google.maps.Marker({
                     'map': map,
                     'position': latLng_,
                     'title': 'You are here'
                 });
                 map.setCenter(latLng_);
-                
-                //remove old locations
-                for(var index = 0; index < markers.length; index++) {
-                    markers[index].setMap(null);
-                }
-                
-                //setup map bounds
-                var latLngBounds_ = new google.maps.LatLngBounds();
+
+                //setup map bounds for userMarker
+                latLngBounds_ = new google.maps.LatLngBounds();
                 latLngBounds_.extend(userMarker.getPosition());
                 
-                //add the matching locations
-                for(var index = 0; index < data.results.length; index++) {
-                    
-                    var latLng_ = new google.maps.LatLng(data.results[index]["latitude"], data.results[index]["longitude"]);
-                    
-                    var image_ = (data.results[index]["current"] ? "/img/ornament_green.png" : "/img/ornament_red.png");
-                    
-                    var marker_ = new google.maps.Marker({
-                        'map': map,
-                        'position': latLng_,
-                        'icon': image_,
-                        'animation': google.maps.Animation.DROP
-                    });
-                    markers.push(marker_);
-        
-                    latLngBounds_.extend(latLng_);
-                    
-                }
-                
-                map.fitBounds(latLngBounds_);
+                locations = data.results;
+                addMarkersToMap();
                 
             }
             else {
@@ -190,6 +173,43 @@ function search(latitude, longitude) {
             }
         }
     });
+}
+
+function addMarkersToMap() {
+     
+     
+     var current_ = $("#check-current").attr('checked');
+     var previous_ = $("#check-previous").attr('checked');
+     
+     //remove old locations
+    for(var index = 0; index < markers.length; index++) {
+        markers[index].setMap(null);
+    }
+    
+    //add the matching locations
+    for(var index = 0; index < locations.length; index++) {
+        
+        if((current_ && locations[index]["current"]) || (previous_ && !locations[index]["current"])) {
+        
+            var latLng_ = new google.maps.LatLng(locations[index]["latitude"], locations[index]["longitude"]);
+            
+            var image_ = (locations[index]["current"] ? "/img/ornament_green.png" : "/img/ornament_red.png");
+            
+            var marker_ = new google.maps.Marker({
+                'map': map,
+                'position': latLng_,
+                'icon': image_,
+                'animation': google.maps.Animation.DROP
+            });
+            markers.push(marker_);
+
+            latLngBounds_.extend(latLng_);
+        }
+        
+    }
+    
+    if(latLngBounds_)
+        map.fitBounds(latLngBounds_);
 }
 
 /************************

@@ -11,7 +11,12 @@
 	height: 700px;
 }
 
-.toolbar {
+.search-toolbar {
+    min-width: 460px;
+    padding: 20px 0px 0px 40px;
+}
+
+.toggle-toolbar {
     min-width: 460px;
     padding: 20px 0px 0px 40px;
 }
