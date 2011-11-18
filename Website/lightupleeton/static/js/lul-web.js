@@ -9,11 +9,14 @@ var latLngBounds_ = null;
 function initializeMap() {
     var mapOptions = {
         zoom: 8,
-        center: new google.maps.LatLng(-34.55139, 146.40665),
+        center: new google.maps.LatLng(-34.5513933, 146.4066521),
         mapTypeId: google.maps.MapTypeId.ROADMAP
     };
         
     map = new google.maps.Map(document.getElementById('map'), mapOptions);
+    
+    //Initial location fetch
+    fetchLocations();
     
     //Once map is ready wire up the other UI elements
     wireEvents();
@@ -21,6 +24,42 @@ function initializeMap() {
 }
 //Hook up the map event
 google.maps.event.addDomListener(window, 'load', initializeMap);
+
+function fetchLocations() {
+        $.ajax({
+        type: 'GET',
+        url: '/api/location/all',
+        success: function(data, textStatus) {
+            if(textStatus == "success") {
+                
+                //show the user marker, hardcoded to leeton to begin with
+                var latLng_ = new google.maps.LatLng(-34.5513933, 146.4066521);
+                
+                //remove old user marker
+                if(userMarker)
+                    userMarker.setMap(null);
+                    
+                userMarker = new google.maps.Marker({
+                    'map': map,
+                    'position': latLng_,
+                    'title': 'You are here'
+                });
+                map.setCenter(latLng_);
+
+                //setup map bounds for userMarker
+                latLngBounds_ = new google.maps.LatLngBounds();
+                latLngBounds_.extend(userMarker.getPosition());
+                
+                locations = data.results;
+                addMarkersToMap(true);
+                
+            }
+            else {
+                console.log("error")
+            }
+        }
+    });
+}
 
 function wireEvents() {
 
@@ -30,21 +69,23 @@ function wireEvents() {
     $("#submit-button").click(submitButtonClicked);
     
     //Search box
-    $("#search-button").click(searchButtonClicked);
-    
-    //Locate button
-    if(window.navigator.geolocation)
-        $("#locate-button").click(locateButtonClicked);
-    else
-        $("#locate-button").hide();
+    $("#centre-button").click(centreButtonClicked);
+    $("#reset-button").click(fetchLocations);
         
     $("#success-alert-close").click(function(event) {
         $("#submit-success-alert").hide();
     });
+    $("#error-alert-close").click(function(event) {
+        $("#submit-error-alert").hide();
+    });
     
     //check boxes
-    $("#check-current").change(addMarkersToMap);
-    $("#check-previous").change(addMarkersToMap);
+    $("#check-current").change(function() {
+        addMarkersToMap(false);
+    });
+    $("#check-previous").change(function() {
+        addMarkersToMap(false);
+    });
 }
 
 /************************
@@ -63,15 +104,20 @@ function addressBoxKeyDown() {
 function verifyButtonClicked() {
     geocoder_.geocode({'address': $("#address-box").val()}, function(response, statusCode){
         if (statusCode == google.maps.GeocoderStatus.OK) {
-            //var location_ = response[0]['geometry']['location'];
-            //this.facility_.setLattitude(location_.lat());
-            //this.facility_.setLongitude(location_.lng());
             $("#address-box").val(response[0]['formatted_address']);
             
+            if(false) {
+            }
+            
             //Enable the submit button
-            $('#address-box').removeClass("error");
+            $('#address-box').removeClass("error-outline");
+            $('#address-box').addClass("success-outline");
             $('#submit-button').attr("disabled", false);
             
+        }
+        else {
+            $('#address-box').removeClass("success-outline");
+            $('#address-box').addClass("error-outline");
         }
     });
 }
@@ -104,10 +150,14 @@ function submitButtonClicked() {
                             $("#submit-success-alert").show();
                             $("#address-box").val("");
                             $('#submit-button').attr("disabled", true);
+                            fetchLocations();
                         }
                         else {
                             $("#submit-error-alert").show();
                         }
+                    },
+                    error: function(data, textStatus) {
+                        $("#submit-error-alert").show();
                     }
                 });
                 
@@ -117,24 +167,40 @@ function submitButtonClicked() {
 }
 
 /************************
-Search
+Centre
 ************************/
 
-function searchButtonClicked() {
+function centreButtonClicked() {
     
-    var addess_ = $('#search-box').val();
+    var addess_ = $('#centre-box').val();
     
     //geocode the address in the search bar
     geocoder_.geocode({'address': addess_}, function(response, statusCode){
         if (statusCode == google.maps.GeocoderStatus.OK) {
-            $('#search-box').val(response[0]['formatted_address']);
-            search(response[0]['geometry']['location'].lat(), response[0]['geometry']['location'].lng());
+            $('#centre-box').val(response[0]['formatted_address']);
+            
+            var latLng_ = new google.maps.LatLng(response[0]['geometry']['location'].lat(), response[0]['geometry']['location'].lng());
+        
+            //remove old user marker
+            if(userMarker)
+                userMarker.setMap(null);
+                
+            userMarker = new google.maps.Marker({
+                'map': map,
+                'position': latLng_,
+                'title': 'You are here'
+            });
+            map.setCenter(latLng_);
+            
+            //setup map bounds for new userMarker
+            //latLngBounds_ = new google.maps.LatLngBounds();
+            //latLngBounds_.extend(userMarker.getPosition());
         }
     });
     
     
 }
-
+/*
 function search(latitude, longitude) {
     $.ajax({
         type: 'GET',
@@ -146,8 +212,8 @@ function search(latitude, longitude) {
         success: function(data, textStatus) {
             if(textStatus == "success") {
                 
-                //show the user marker, center the map
-                var latLng_ = new google.maps.LatLng(latitude, longitude);
+                //show the user marker, hardcoded to leeton to begin with
+                var latLng_ = new google.maps.LatLng(-34.5513933, 146.4066521);
                 
                 //remove old user marker
                 if(userMarker)
@@ -174,10 +240,11 @@ function search(latitude, longitude) {
         }
     });
 }
-
-function addMarkersToMap() {
+*/
+function addMarkersToMap(opt_initial) {
      
-     
+    opt_initial = typeof(opt_initial) != 'undefined' ? opt_initial : false;
+    
      var current_ = $("#check-current").attr('checked');
      var previous_ = $("#check-previous").attr('checked');
      
@@ -202,13 +269,14 @@ function addMarkersToMap() {
                 'animation': google.maps.Animation.DROP
             });
             markers.push(marker_);
-
-            latLngBounds_.extend(latLng_);
+            
+            if(opt_initial)
+                latLngBounds_.extend(latLng_);
         }
         
     }
     
-    if(latLngBounds_)
+    if(opt_initial && latLngBounds_)
         map.fitBounds(latLngBounds_);
 }
 

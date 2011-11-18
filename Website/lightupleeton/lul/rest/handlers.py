@@ -1,4 +1,5 @@
 from google.appengine.api import users
+from google.appengine.api import memcache
 from google.appengine.ext import db
 from prestans import handlers, rest, types
 import lul.models
@@ -7,8 +8,9 @@ import lul.rest.models
 #import lul.rest.parsers
 from geo import *
 from datetime import datetime
+import re
 
-
+ALL_LOCATIONS_CACHE_KEY = "all_locations_cache_key"
 
 class LocationRESTRequestHandler(handlers.RESTRequestHandler):
     
@@ -44,17 +46,22 @@ class LocationRESTRequestHandler(handlers.RESTRequestHandler):
         
     def get(self, location_id):
     
-        if isinstance(self.request.parameter_set, lul.rest.parsers.LocationSearchParameterSet):
-            locations = self.locations_around_point(self.request.parameter_set.latitude, self.request.parameter_set.longitude, self.request.parameter_set.radius)
+        locations_rest = memcache.get(ALL_LOCATIONS_CACHE_KEY)
+        if locations_rest is None:
+            locations = lul.models.Location.all()
+            locations_rest = self.as_rest_models(locations)
+            memcache.set(ALL_LOCATIONS_CACHE_KEY, locations_rest)
         
-            self.response.http_status = rest.STATUS.OK
-            self.response.set_body_attribute('results', self.as_rest_models(locations))
-        else:
-            self.response.http_status = rest.STATUS.NOT_FOUND
-            self.response.set_body_attribute('message', 'Unsupported Request')
+        self.response.http_status = rest.STATUS.OK
+        self.response.set_body_attribute('results', locations_rest)
     
     def post(self, location_id):
         location_rest = self.request.parsed_body_model
+        
+        if re.match("^.*Leeton NSW 2705, Australia$", location_rest.address) is None:
+            self.response.http_status = rest.STATUS.BAD_REQUEST
+            self.response.set_body_attribute('message', 'Light Up Leeton only accepts addresses from Leeton')
+            return
         
         location_query = lul.models.Location.all().filter("address =", location_rest.address)
         locations = location_query.fetch(location_query.count())
@@ -74,6 +81,7 @@ class LocationRESTRequestHandler(handlers.RESTRequestHandler):
         
         location_persistent.update_location()
         location_persistent.put()
+        memcache.delete(ALL_LOCATIONS_CACHE_KEY)
     
         self.response.http_status = rest.STATUS.OK
         self.response.set_body_attribute('results', self.as_rest_models([location_persistent]))

@@ -7,13 +7,7 @@ class LocationSearchParameterSet(parsers.ParameterSet):
     longitude = types.Float(required=True)
     radius = types.Float(required=True, default=5.0)
 
-class LocationRequestParser(parsers.RequestParser):
-    GET = parsers.ParserRuleSet(
-        parameter_sets = [
-            LocationSearchParameterSet(),
-        ]
-    )
-        
+class LocationRequestParser(parsers.RequestParser):        
     POST = parsers.ParserRuleSet(
         body_template=models.Location()
     )

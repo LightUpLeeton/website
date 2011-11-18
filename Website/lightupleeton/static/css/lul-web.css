@@ -31,6 +31,14 @@
     padding: 10px;
 }
 
+.success-outline {
+    background-color: green;
+}
+
+.error-outline {
+    background-color: red;
+}
+
 #searchBox {
     width: 380px;
 }
