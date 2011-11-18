@@ -80,11 +80,19 @@ function wireEvents() {
     });
     
     //check boxes
-    $("#check-current").change(function() {
-        addMarkersToMap(false);
+    $("#check-current").change(function(event) {
+        if(!$("#check-previous").attr('checked')) {
+            $("#check-current").attr('checked', true);
+        }
+        else
+            addMarkersToMap(false);
     });
     $("#check-previous").change(function() {
-        addMarkersToMap(false);
+        if(!$("#check-current").attr('checked')) {
+            $("#check-previous").attr('checked', true);
+        }
+        else
+            addMarkersToMap(false);
     });
 }
 
@@ -106,13 +114,18 @@ function verifyButtonClicked() {
         if (statusCode == google.maps.GeocoderStatus.OK) {
             $("#address-box").val(response[0]['formatted_address']);
             
-            if(false) {
-            }
+            var regex = new RegExp("^.*Leeton NSW 2705, Australia$");
             
-            //Enable the submit button
-            $('#address-box').removeClass("error-outline");
-            $('#address-box').addClass("success-outline");
-            $('#submit-button').attr("disabled", false);
+            if($("#address-box").val().search(regex) == -1) {
+                $('#address-box').removeClass("success-outline");
+                $('#address-box').addClass("error-outline");
+            }
+            else {
+                //Enable the submit button
+                $('#address-box').removeClass("error-outline");
+                $('#address-box').addClass("success-outline");
+                $('#submit-button').attr("disabled", false);
+            }
             
         }
         else {
@@ -151,13 +164,15 @@ function submitButtonClicked() {
                             $("#address-box").val("");
                             $('#submit-button').attr("disabled", true);
                             fetchLocations();
+                            $('#address-box').removeClass("success-outline");
+                            $('#address-box').removeClass("error-outline");
                         }
-                        else {
-                            $("#submit-error-alert").show();
-                        }
+                        
+                        
                     },
                     error: function(data, textStatus) {
                         $("#submit-error-alert").show();
+                        $('#address-box').addClass("error-outline");
                     }
                 });
                 

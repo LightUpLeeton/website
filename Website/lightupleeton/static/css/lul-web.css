@@ -32,11 +32,11 @@
 }
 
 .success-outline {
-    background-color: green;
+    border-color: #57A957;
 }
 
 .error-outline {
-    background-color: red;
+    border-color: #EE5F5B;
 }
 
 #searchBox {
