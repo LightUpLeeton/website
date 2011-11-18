@@ -206,6 +206,7 @@ function centreButtonClicked() {
                 'title': 'You are here'
             });
             map.setCenter(latLng_);
+            map.setZoom(18);
             
             //setup map bounds for new userMarker
             //latLngBounds_ = new google.maps.LatLngBounds();
@@ -281,7 +282,8 @@ function addMarkersToMap(opt_initial) {
                 'map': map,
                 'position': latLng_,
                 'icon': image_,
-                'animation': google.maps.Animation.DROP
+                'animation': google.maps.Animation.DROP,
+                'title': locations[index]["address"]
             });
             markers.push(marker_);
             
