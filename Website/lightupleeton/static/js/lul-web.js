@@ -114,7 +114,7 @@ function verifyButtonClicked() {
         if (statusCode == google.maps.GeocoderStatus.OK) {
             $("#address-box").val(response[0]['formatted_address']);
             
-            var regex = new RegExp("^.*(Leeton NSW 2705, Australia|Yanco NSW 2703, Australia)$");
+            var regex = new RegExp("^.*(Leeton NSW 2705, Australia|Yanco NSW 2703, Australia|Whitton NSW 2705, Australia)$");
             
             if($("#address-box").val().search(regex) == -1) {
                 $('#address-box').removeClass("success-outline");

@@ -58,9 +58,9 @@ class LocationRESTRequestHandler(handlers.RESTRequestHandler):
     def post(self, location_id):
         location_rest = self.request.parsed_body_model
         
-        if re.match("^.*(Leeton NSW 2705, Australia|Yanco NSW 2703, Australia)$", location_rest.address) is None:
+        if re.match("^.*(Leeton NSW 2705, Australia|Yanco NSW 2703, Australia|Whitton NSW 2705, Australia)$", location_rest.address) is None:
             self.response.http_status = rest.STATUS.BAD_REQUEST
-            self.response.set_body_attribute('message', 'Light Up Leeton only accepts addresses from Leeton')
+            self.response.set_body_attribute('message', 'Light Up Leeton only accepts addresses from Leeton, Whitton and Yanco')
             return
         
         location_query = lul.models.Location.all().filter("address =", location_rest.address)
