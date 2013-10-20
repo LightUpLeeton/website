@@ -22,7 +22,7 @@ class LocationsHandler(webapp2.RequestHandler):
     def get(self):
         
         template_values = {
-            "locations": lul.models.Location.all()
+            "locations": lul.models.Location.all().order("-updated_date")
         }
         
         path = os.path.join(os.path.dirname(__file__), '..', 'static', 'html', 'locations-web.html')
