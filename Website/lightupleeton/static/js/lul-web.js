@@ -28,7 +28,7 @@ google.maps.event.addDomListener(window, 'load', initializeMap);
 function fetchLocations() {
         $.ajax({
         type: 'GET',
-        url: '/api/location/all',
+        url: '/api/location',
         success: function(data, textStatus) {
             if(textStatus == "success") {
                 
@@ -94,6 +94,20 @@ function wireEvents() {
         else
             addMarkersToMap(false);
     });
+
+    /*
+    google.maps.event.addListener(map, 'zoom_changed', function() {
+        
+        zoomLevel = map.getZoom();
+    
+        for(var index = 0; index < markers.length; index++) {
+
+            var marker_ = markers[index];
+            var icon_ = new google.maps.Icon();   
+        }
+
+    });
+    */
 }
 
 /************************
@@ -216,47 +230,7 @@ function centreButtonClicked() {
     
     
 }
-/*
-function search(latitude, longitude) {
-    $.ajax({
-        type: 'GET',
-        url: '/api/location/all',
-        data: {
-            "latitude" : latitude,
-            "longitude" : longitude
-        },
-        success: function(data, textStatus) {
-            if(textStatus == "success") {
-                
-                //show the user marker, hardcoded to leeton to begin with
-                var latLng_ = new google.maps.LatLng(-34.5513933, 146.4066521);
-                
-                //remove old user marker
-                if(userMarker)
-                    userMarker.setMap(null);
-                    
-                userMarker = new google.maps.Marker({
-                    'map': map,
-                    'position': latLng_,
-                    'title': 'You are here'
-                });
-                map.setCenter(latLng_);
 
-                //setup map bounds for userMarker
-                latLngBounds_ = new google.maps.LatLngBounds();
-                latLngBounds_.extend(userMarker.getPosition());
-                
-                locations = data.results;
-                addMarkersToMap();
-                
-            }
-            else {
-                console.log("error")
-            }
-        }
-    });
-}
-*/
 function addMarkersToMap(opt_initial) {
      
     opt_initial = typeof(opt_initial) != 'undefined' ? opt_initial : false;

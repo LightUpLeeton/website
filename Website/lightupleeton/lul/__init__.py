@@ -4,16 +4,28 @@ from google.appengine.ext.webapp import template
 
 import os, re, urlparse, webapp2
 
+import lul.models
+
 class MainHandler(webapp2.RequestHandler):
     def get(self):        
         template_values = {}
         
         #Check for mobile or web version by domain name
-        url = urlparse.urlparse(self.request.url)
-        import logging
-        logging.warn(url.netloc)
+        #url = urlparse.urlparse(self.request.url)
+        #import logging
+        #logging.warn(url.netloc)
         
         path = os.path.join(os.path.dirname(__file__), '..', 'static', 'html', 'web.html')
+        self.response.out.write(template.render(path, template_values))
+
+class LocationsHandler(webapp2.RequestHandler):
+    def get(self):
+        
+        template_values = {
+            "locations": lul.models.Location.all()
+        }
+        
+        path = os.path.join(os.path.dirname(__file__), '..', 'static', 'html', 'locations-web.html')
         self.response.out.write(template.render(path, template_values))
         
 class ManageHandler(webapp2.RequestHandler):
@@ -29,4 +41,8 @@ class ManageHandler(webapp2.RequestHandler):
 
 
 
-app = webapp2.WSGIApplication([('/', MainHandler), ('/manage', ManageHandler)])
+app = webapp2.WSGIApplication([
+    ('/', MainHandler),
+    ('/locations', LocationsHandler),
+    ('/manage', ManageHandler)
+])

@@ -12,7 +12,7 @@ import re
 
 ALL_LOCATIONS_CACHE_KEY = "all_locations_cache_key"
 
-class LocationRESTRequestHandler(handlers.RESTRequestHandler):
+class Collection(handlers.RESTRequestHandler):
     
     request_parser = parsers.LocationRequestParser()
     
@@ -44,7 +44,7 @@ class LocationRESTRequestHandler(handlers.RESTRequestHandler):
                 )
                 return results;
         
-    def get(self, location_id):
+    def get(self):
     
         locations_rest = memcache.get(ALL_LOCATIONS_CACHE_KEY)
         if locations_rest is None:
@@ -55,7 +55,7 @@ class LocationRESTRequestHandler(handlers.RESTRequestHandler):
         self.response.http_status = rest.STATUS.OK
         self.response.set_body_attribute('results', locations_rest)
     
-    def post(self, location_id):
+    def post(self):
         location_rest = self.request.parsed_body_model
         
         if re.match("^.*(Leeton NSW 2705, Australia|Yanco NSW 2703, Australia|Whitton NSW 2705, Australia)$", location_rest.address) is None:
@@ -82,14 +82,9 @@ class LocationRESTRequestHandler(handlers.RESTRequestHandler):
         location_persistent.update_location()
         location_persistent.put()
         memcache.delete(ALL_LOCATIONS_CACHE_KEY)
+        locations = lul.models.Location.all()
+        locations_rest = self.as_rest_models(locations)
+        memcache.set(ALL_LOCATIONS_CACHE_KEY, locations_rest)
     
         self.response.http_status = rest.STATUS.OK
         self.response.set_body_attribute('results', self.as_rest_models([location_persistent]))
-    def put(self, location_id):
-        location_rest = self.request.parsed_body_model
-    
-        self.response.http_status = rest.STATUS.OK
-        self.response.set_body_attribute('message', location_rest)
-    def delete(self, location_id):
-        self.response.http_status = rest.STATUS.OK
-        self.response.set_body_attribute('message', 'Location REST')

@@ -1,6 +1,11 @@
 __all__ = ["handlers", "parsers", "models", "api"]
 
-from prestans import rest
-from . import handlers
+import prestans.rest
+import handlers.location
+#import logging
 
-api = rest.JSONRESTApplication([(r'/api/location/*([0-9]*|all)/*', handlers.LocationRESTRequestHandler)])
+#logging.getLogger().setLevel(logging.DEBUG)
+
+api = prestans.rest.JSONRESTApplication([
+	(r'/api/location', handlers.location.Collection)
+])
