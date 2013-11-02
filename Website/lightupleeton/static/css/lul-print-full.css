@@ -1,0 +1,12 @@
+@page {
+    size: landscape;
+}
+
+#map {
+    margin: 0px;
+    padding: 0px;
+}
+
+.gmnoprint{
+  display:none;
+}
