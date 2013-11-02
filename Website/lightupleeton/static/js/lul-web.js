@@ -71,7 +71,11 @@ function wireEvents() {
     //Search box
     $("#centre-button").click(centreButtonClicked);
     $("#reset-button").click(fetchLocations);
-        
+
+    $("#print-button").click(function() {
+        window.print();
+    });
+
     $("#success-alert-close").click(function(event) {
         $("#submit-success-alert").hide();
     });

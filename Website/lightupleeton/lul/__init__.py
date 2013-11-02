@@ -18,6 +18,14 @@ class MainHandler(webapp2.RequestHandler):
         path = os.path.join(os.path.dirname(__file__), '..', 'static', 'html', 'web.html')
         self.response.out.write(template.render(path, template_values))
 
+class FullHandler(webapp2.RequestHandler):
+    def get(self):
+        template_values = {}
+        
+        path = os.path.join(os.path.dirname(__file__), '..', 'static', 'html', 'web-full.html')
+        self.response.out.write(template.render(path, template_values))
+
+
 class LocationsHandler(webapp2.RequestHandler):
     def get(self):
         
@@ -43,6 +51,7 @@ class ManageHandler(webapp2.RequestHandler):
 
 app = webapp2.WSGIApplication([
     ('/', MainHandler),
+    ('/full', FullHandler),
     ('/locations', LocationsHandler),
     ('/manage', ManageHandler)
 ])
