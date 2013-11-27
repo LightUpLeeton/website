@@ -72,7 +72,7 @@ function addMarkersToMap(opt_initial) {
         
         var latLng_ = new google.maps.LatLng(locations[index]["latitude"], locations[index]["longitude"]);
         
-        var image_ = (locations[index]["current"] ? "/img/ornament_green_small.png" : "/img/ornament_red_small.png");
+        var image_ = (locations[index]["current"] ? "/img/ornament_green_smaller.png" : "/img/ornament_red_smaller.png");
         
         var marker_ = new google.maps.Marker({
             'map': map,
