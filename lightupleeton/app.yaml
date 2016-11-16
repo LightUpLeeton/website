@@ -1,5 +1,5 @@
 application: lightupleeton
-version: 1
+version: 1-0-1
 runtime: python27
 api_version: 1
 threadsafe: yes
@@ -23,11 +23,11 @@ handlers:
   static_dir: static/img
 
 - url: /api/.*
-  script: lul.rest.api
+  script: endpoints.api
 
 - url: /manage
   login: required
-  script: lul.app
+  script: endpoints.app
 
 - url: .*
-  script: lul.app
+  script: endpoints.app

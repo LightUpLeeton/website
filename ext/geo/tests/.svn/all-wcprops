@@ -1,0 +1,47 @@
+K 25
+svn:wc:ra_dav:version-url
+V 49
+/svn/!svn/ver/14/tags/release-0.2.0/src/geo/tests
+END
+geocell_test.py
+K 25
+svn:wc:ra_dav:version-url
+V 65
+/svn/!svn/ver/14/tags/release-0.2.0/src/geo/tests/geocell_test.py
+END
+app.yaml
+K 25
+svn:wc:ra_dav:version-url
+V 58
+/svn/!svn/ver/14/tags/release-0.2.0/src/geo/tests/app.yaml
+END
+util_test.py
+K 25
+svn:wc:ra_dav:version-url
+V 62
+/svn/!svn/ver/14/tags/release-0.2.0/src/geo/tests/util_test.py
+END
+test_coverage.sh
+K 25
+svn:wc:ra_dav:version-url
+V 66
+/svn/!svn/ver/14/tags/release-0.2.0/src/geo/tests/test_coverage.sh
+END
+geotypes_test.py
+K 25
+svn:wc:ra_dav:version-url
+V 66
+/svn/!svn/ver/14/tags/release-0.2.0/src/geo/tests/geotypes_test.py
+END
+geomodel.txt
+K 25
+svn:wc:ra_dav:version-url
+V 62
+/svn/!svn/ver/14/tags/release-0.2.0/src/geo/tests/geomodel.txt
+END
+geomath_test.py
+K 25
+svn:wc:ra_dav:version-url
+V 65
+/svn/!svn/ver/14/tags/release-0.2.0/src/geo/tests/geomath_test.py
+END

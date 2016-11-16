@@ -1,20 +1,43 @@
 from google.appengine.api import users
 from google.appengine.api import memcache
 from google.appengine.ext import db
-from prestans import handlers, rest, types
+
+import prestans.parser
+import prestans.types
+
 import lul.models
-from lul.rest import parsers
 import lul.rest.models
-#import lul.rest.parsers
+import lul.rest.handlers
+
 from geo import *
 from datetime import datetime
 import re
 
 ALL_LOCATIONS_CACHE_KEY = "all_locations_cache_key"
 
-class Collection(handlers.RESTRequestHandler):
+class SearchParameterSet(prestans.parser.ParameterSet):
+    latitude = prestans.types.Float(required=True)
+    longitude = prestans.types.Float(required=True)
+    radius = prestans.types.Float(required=True, default=5.0)
+
+create_filter = prestans.parser.AttributeFilter.from_model(lul.rest.models.Location())
+create_filter.address = True
+
+class Collection(lul.rest.handlers.Base):
     
-    request_parser = parsers.LocationRequestParser()
+    __parser_config__ = prestans.parser.Config(
+        GET=prestans.parser.VerbConfig(
+            parameter_sets=[SearchParameterSet()],
+            response_template=prestans.types.Array(
+                element_template=lul.rest.models.Location()
+            )
+        ),
+        POST=prestans.parser.VerbConfig(
+            request_attribute_filter=create_filter,
+            body_template=lul.rest.models.Location(),
+            response_template=lul.rest.models.Location()
+        )
+    )
     
     def as_rest_model(self, persistent_model):
         
