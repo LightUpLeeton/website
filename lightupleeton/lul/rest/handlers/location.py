@@ -22,6 +22,8 @@ class SearchParameterSet(prestans.parser.ParameterSet):
 
 create_filter = prestans.parser.AttributeFilter.from_model(lul.rest.models.Location())
 create_filter.address = True
+create_filter.latitude = True
+create_filter.longitude = True
 
 class Collection(lul.rest.handlers.Base):
     

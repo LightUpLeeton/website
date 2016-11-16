@@ -13,5 +13,5 @@ app = webapp2.WSGIApplication([
 ])
 
 api = prestans.rest.RequestRouter([
-	(r'/api/location', lul.handlers.location.Collection)
+	(r'/api/location', lul.rest.handlers.location.Collection)
 ])
