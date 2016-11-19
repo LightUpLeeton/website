@@ -8,8 +8,7 @@ import lul.rest.handlers.location
 app = webapp2.WSGIApplication([
     ('/', lul.page.handlers.app.Main),
     ('/full', lul.page.handlers.app.Full),
-    ('/locations', lul.page.handlers.app.Locations),
-    ('/manage', lul.page.handlers.app.Manage)
+    ('/locations', lul.page.handlers.app.Locations)
 ])
 
 api = prestans.rest.RequestRouter([

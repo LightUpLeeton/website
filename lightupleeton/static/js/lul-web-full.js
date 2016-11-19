@@ -24,6 +24,7 @@ google.maps.event.addDomListener(window, 'load', initializeMap);
 
 function fetchLocations() {
         $.ajax({
+        contentType: "application/json",
         type: 'GET',
         url: '/api/location',
         success: function(data, textStatus) {

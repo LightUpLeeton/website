@@ -173,6 +173,7 @@ function submitButtonClicked() {
                 };
                 
                 $.ajax({
+                    contentType: "application/json",
                     type: 'POST',
                     url: '/api/location',
                     data: JSON.stringify(location),

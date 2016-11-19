@@ -4,6 +4,10 @@ runtime: python27
 api_version: 1
 threadsafe: yes
 
+libraries:
+- name: jinja2
+  version: "2.6"
+
 handlers:
 - url: /favicon.ico
   static_files: static/favicon.ico
@@ -24,10 +28,6 @@ handlers:
 
 - url: /api/.*
   script: endpoints.api
-
-- url: /manage
-  login: required
-  script: endpoints.app
 
 - url: .*
   script: endpoints.app
