@@ -15,8 +15,8 @@
 			<thead>
 				<tr>
 					<th>Address</th>
-					<th>Longitude</th>
 					<th>Latitude</th>
+					<th>Longitude</th>
 					<th>Created</th>
 					<th>Last Updated</th>
 				</tr>
@@ -24,9 +24,9 @@
 			<tbody>
 				{% for location in locations %}
 				<tr>
-					<td>{{location.address}}</td>
-					<td>{{location.location.lon}}</td>
-					<td>{{location.location.lat}}</td>
+					<td>{{location.location.address}}</td>
+					<td>{{location.location.latitude}}</td>
+					<td>{{location.location.longitude}}</td>
 					<td>{{location.created_date}}</td>
 					<td>{{location.updated_date}}</td>
 				</tr>

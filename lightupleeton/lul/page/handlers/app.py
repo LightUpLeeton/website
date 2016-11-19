@@ -23,8 +23,12 @@ class Full(lul.page.handlers.Base):
 class Locations(lul.page.handlers.Base):
     def get(self):
         
+        locations = lul.models.PointOfInterest.query().order(
+            -lul.models.PointOfInterest.updated_date
+        )
+
         template_values = {
-            "locations": lul.models.Location.all().order("-updated_date")
+            "locations": locations
         }
 
-        self.render_template("locations-web", template_values)
+        self.render_template("web-locations", template_values)

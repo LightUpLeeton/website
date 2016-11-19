@@ -2,10 +2,13 @@ from google.appengine.api import users
 from google.appengine.api import memcache
 from google.appengine.ext import db
 
+import prestans.ext.data.adapters.ndb
 import prestans.parser
+import prestans.rest
 import prestans.types
 
 import lul.models
+import lul.rest.adapters
 import lul.rest.models
 import lul.rest.handlers
 
@@ -13,11 +16,11 @@ from geo import *
 from datetime import datetime
 import re
 
-ALL_LOCATIONS_CACHE_KEY = "all_locations_cache_key"
+ALL_POI_CACHE_KEY = "all_poi_cache_key"
 
 class SearchParameterSet(prestans.parser.ParameterSet):
-    latitude = prestans.types.Float(required=True)
-    longitude = prestans.types.Float(required=True)
+    latitude = prestans.types.Float(required=False)
+    longitude = prestans.types.Float(required=False)
     radius = prestans.types.Float(required=True, default=5.0)
 
 create_filter = prestans.parser.AttributeFilter.from_model(lul.rest.models.Location())
@@ -31,72 +34,55 @@ class Collection(lul.rest.handlers.Base):
         GET=prestans.parser.VerbConfig(
             parameter_sets=[SearchParameterSet()],
             response_template=prestans.types.Array(
-                element_template=lul.rest.models.Location()
-            )
+                element_template=lul.rest.models.PointOfInterest()
+            ),
+            response_attribute_filter_default_value=True
         ),
         POST=prestans.parser.VerbConfig(
             request_attribute_filter=create_filter,
             body_template=lul.rest.models.Location(),
-            response_template=lul.rest.models.Location()
+            response_template=lul.rest.models.PointOfInterest()
         )
     )
-
-    def locations_around_point(self, latitude, longitude, radius = 10.0):
-        results = lul.models.Location.proximity_fetch(
-            lul.models.Location.all(),
-            geotypes.Point(latitude, longitude),
-            max_results = 200,
-            max_distance = radius * 1000
-        )
-        return results;
         
     def get(self):
-    
-        locations_rest = memcache.get(ALL_LOCATIONS_CACHE_KEY)
-        if locations_rest is None:
-            locations = lul.models.Location.all()
-            locations_rest = prestans.ext.data.adapters.ndb.adapt_persistent_collection(
-                locations,
-                twine.rest.models.Location,
+
+        pois_rest = memcache.get(ALL_POI_CACHE_KEY)
+        if pois_rest is None:
+            pois = lul.models.PointOfInterest.query()
+
+            pois_rest = prestans.ext.data.adapters.ndb.adapt_persistent_collection(
+                pois,
+                lul.rest.models.PointOfInterest,
                 self.response.attribute_filter
             )
-            memcache.set(ALL_LOCATIONS_CACHE_KEY, locations_rest)
-        
-        self.response.http_status = rest.STATUS.OK
-        self.response.body = locations_rest
+            memcache.set(ALL_POI_CACHE_KEY, pois_rest)
+
+        self.response.status = prestans.http.STATUS.OK
+        self.response.body = pois_rest
     
     def post(self):
         location_rest = self.request.parsed_body
         
+        # ensure address is located in valid towns
         if re.match("^.*(Leeton NSW 2705, Australia|Yanco NSW 2703, Australia|Whitton NSW 2705, Australia)$", location_rest.address) is None:
-            self.response.http_status = rest.STATUS.BAD_REQUEST
-            self.response.set_body_attribute('message', 'Light Up Leeton only accepts addresses from Leeton, Whitton and Yanco')
-            return
+            raise prestans.exception.BadRequest("Light Up Leeton only accepts addresses from Leeton, Whitton and Yanco")
         
-        location_query = lul.models.Location.all().filter("address =", location_rest.address)
-        locations = location_query.fetch(location_query.count())
+        # check for an existing location with same address
+        poi = lul.models.PointOfInterest.query().filter(
+            lul.models.PointOfInterest.location.description==location_rest.address
+        ).get()
         
-        if len(locations) > 0:
-            location_persistent = locations[0]
-        else:
-            location_persistent = lul.models.Location(
-                address=location_rest.address
-            )
+        if not poi:
+            poi = lul.models.PointOfInterest.create(location_rest)
+            poi.put()
         
-        location_persistent.location = db.GeoPt(location_rest.latitude, location_rest.longitude)
-        
-        #Check if user is logged in, then it must be submitted by committee
-        if users.get_current_user():
-            location_persistent.added_by_committee = True
-        
-        location_persistent.update_location()
-        location_persistent.put()
-        memcache.delete(ALL_LOCATIONS_CACHE_KEY)
+            memcache.delete(ALL_POI_CACHE_KEY)
     
-        self.response.http_status = rest.STATUS.CREATED
+        self.response.status = prestans.http.STATUS.CREATED
         self.response.body = prestans.ext.data.adapters.ndb.adapt_persistent_instance(
-            location_persistent,
-            twine.rest.models.Location,
+            poi,
+            lul.rest.models.PointOfInterest,
             self.response.attribute_filter
         )
         

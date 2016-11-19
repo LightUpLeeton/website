@@ -48,7 +48,7 @@ function fetchLocations() {
                 latLngBounds_ = new google.maps.LatLngBounds();
                 latLngBounds_.extend(userMarker.getPosition());
                 
-                locations = data.results;
+                locations = data;
                 addMarkersToMap(true);
                 
             }
@@ -71,7 +71,10 @@ function addMarkersToMap(opt_initial) {
     //add the matching locations
     for(var index = 0; index < locations.length; index++) {
         
-        var latLng_ = new google.maps.LatLng(locations[index]["latitude"], locations[index]["longitude"]);
+        var latLng_ = new google.maps.LatLng(
+            locations[index]["location"]["latitude"],
+            locations[index]["location"]["longitude"]
+        );
         
         var image_ = (locations[index]["current"] ? "/img/ornament_green_smaller.png" : "/img/ornament_red_smaller.png");
         
@@ -80,7 +83,7 @@ function addMarkersToMap(opt_initial) {
             'position': latLng_,
             'icon': image_,
             'animation': google.maps.Animation.DROP,
-            'title': locations[index]["address"]
+            'title': locations[index]["location"]["address"]
         });
         markers.push(marker_);
         
