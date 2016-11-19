@@ -17,7 +17,7 @@ class Full(lul.page.handlers.Base):
     def get(self):
         template_values = {}
         
-        self.render_template("web-full, template_values")
+        self.render_template("web-full", template_values)
 
 
 class Locations(lul.page.handlers.Base):

@@ -1,0 +1,5 @@
+cron:
+- description: location migrate job
+  url: /cron/location/migrate
+  target: default
+  schedule: every 1 minutes

@@ -3,6 +3,7 @@ import webapp2
 import prestans.rest
 
 import lul.page.handlers.app
+import lul.cron.handlers.location
 import lul.rest.handlers.location
 
 app = webapp2.WSGIApplication([
@@ -11,6 +12,10 @@ app = webapp2.WSGIApplication([
     ('/locations', lul.page.handlers.app.Locations)
 ])
 
+cron = prestans.rest.RequestRouter([
+    (r'/cron/location/migrate', lul.cron.handlers.location.Migrate)
+])
+
 api = prestans.rest.RequestRouter([
-	(r'/api/location', lul.rest.handlers.location.Collection)
+    (r'/api/location', lul.rest.handlers.location.Collection)
 ])
