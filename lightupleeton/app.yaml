@@ -31,8 +31,8 @@ handlers:
 - url: /api/.*
   script: endpoints.api
 
-- url: /cron/.*
-  script: endpoints.cron
+# - url: /cron/.*
+#   script: endpoints.cron
 
 - url: .*
   script: endpoints.app

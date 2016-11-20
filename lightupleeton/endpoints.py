@@ -13,7 +13,8 @@ app = webapp2.WSGIApplication([
 ])
 
 cron = prestans.rest.RequestRouter([
-    (r'/cron/location/migrate', lul.cron.handlers.location.Migrate)
+    (r'/cron/location/migrate', lul.cron.handlers.location.Migrate),
+    (r'/cron/location/migrate/reset', lul.cron.handlers.location.MigrateReset)
 ])
 
 api = prestans.rest.RequestRouter([

@@ -73,11 +73,14 @@ class Collection(lul.rest.handlers.Base):
             lul.models.PointOfInterest.location.description==location_rest.address
         ).get()
         
-        if not poi:
+        if poi:
+            poi.last_submitted_date = datetime.now()
+            poi.put()
+        else:
             poi = lul.models.PointOfInterest.create(location_rest)
             poi.put()
         
-            memcache.delete(ALL_POI_CACHE_KEY)
+        memcache.delete(ALL_POI_CACHE_KEY)
     
         self.response.status = prestans.http.STATUS.CREATED
         self.response.body = prestans.ext.data.adapters.ndb.adapt_persistent_instance(

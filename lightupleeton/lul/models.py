@@ -6,12 +6,14 @@ from google.appengine.api import users
 
 from geo.geomodel import GeoModel
 
+
 class Location(GeoModel):
     address = db.StringProperty(required=True)
     created_date = db.DateTimeProperty(auto_now_add=True)
     updated_date = db.DateTimeProperty(auto_now=True)
     added_by_committee = db.BooleanProperty(default=False)
     migrated = db.BooleanProperty(default=False)
+
 
 class POILocation(ndb.Model):
     description = ndb.StringProperty(required=True)
@@ -29,17 +31,20 @@ class POILocation(ndb.Model):
     def longitude(self):
         return self.geo_point.lon
 
+
 class PointOfInterest(ndb.Model):
     
     location = ndb.StructuredProperty(POILocation, required=True)
     created_date = ndb.DateTimeProperty(auto_now_add=True)
     updated_date = ndb.DateTimeProperty(auto_now=True)
+
+    last_submitted_date = ndb.DateTimeProperty(required=True)
     added_by_committee = ndb.BooleanProperty(default=False)
 
     @property
     def current(self):
         now = datetime.now()
-        return self.updated_date.year == now.year and not self.added_by_committee
+        return self.last_submitted_date.year == now.year
 
     @classmethod
     def create_from_location(cls, location_to_migrate):
@@ -48,7 +53,7 @@ class PointOfInterest(ndb.Model):
             description=location_to_migrate.address,
             geo_point=ndb.GeoPt(
                 location_to_migrate.location.lat,
-                location_to_migrate.location_to_migrate.lon
+                location_to_migrate.location.lon
             )
         )
 
@@ -56,6 +61,7 @@ class PointOfInterest(ndb.Model):
             location=poi_location,
             created_date=location_to_migrate.created_date,
             updated_date=location_to_migrate.updated_date,
+            last_submitted_date=location_to_migrate.created_date,
             added_by_committee=location_to_migrate.added_by_committee
         )
 
@@ -73,7 +79,8 @@ class PointOfInterest(ndb.Model):
         )
 
         poi = cls(
-            location=poi_location
+            location=poi_location,
+            last_submitted_date=datetime.now()
         )
 
         return poi
