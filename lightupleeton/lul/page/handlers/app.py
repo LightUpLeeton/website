@@ -32,3 +32,12 @@ class Locations(lul.page.handlers.Base):
         }
 
         self.render_template("web-locations", template_values)
+
+class LetsEncryptHandler(lul.page.handlers.Base):
+
+    def get(self, challenge):
+        self.response.headers['Content-Type'] = 'text/plain'
+        responses = {
+                    'p3w4zOwxmf2SherSZ7tOtTkrvYL45y156essjJFMW5o': 'p3w4zOwxmf2SherSZ7tOtTkrvYL45y156essjJFMW5o.HNbU1uUcwn5AWt_OMA6FoJBkcibXcKeRi_W6eT3LRq8'
+                }
+        self.response.write(responses.get(challenge, ''))
