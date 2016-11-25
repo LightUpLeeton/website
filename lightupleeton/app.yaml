@@ -43,3 +43,7 @@ handlers:
 - url: .*
   script: endpoints.app
   secure: always
+
+env_variables:
+  GOOGLE_MAPS_PROD: AIzaSyDej8MbNNc58ByNeoxmOAHavPADP4_werc
+  GOOGLE_MAPS_DEVEL: AIzaSyD-NyV_El4O2p54jlFyroK7k3BIv7flZRU

@@ -1,21 +1,25 @@
-import lul.page.handlers
-
 from google.appengine.ext.webapp import template
 import os
 
 import lul.models
+import lul.page.handlers
 
 
 class Main(lul.page.handlers.Base):
-    def get(self):      
-        template_values = {}
+    def get(self):
+
+        template_values = {
+            "GOOGLE_API_KEY": self.google_api_key
+        }
         
         self.render_template("web", template_values)
 
 
 class Full(lul.page.handlers.Base):
     def get(self):
-        template_values = {}
+        template_values = {
+            "GOOGLE_API_KEY": self.google_api_key
+        }
         
         self.render_template("web-full", template_values)
 
