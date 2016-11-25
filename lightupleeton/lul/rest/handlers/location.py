@@ -47,19 +47,14 @@ class Collection(lul.rest.handlers.Base):
         
     def get(self):
 
-        pois_rest = memcache.get(ALL_POI_CACHE_KEY)
-        if pois_rest is None:
-            pois = lul.models.PointOfInterest.query()
-
-            pois_rest = prestans.ext.data.adapters.ndb.adapt_persistent_collection(
-                pois,
-                lul.rest.models.PointOfInterest,
-                self.response.attribute_filter
-            )
-            memcache.set(ALL_POI_CACHE_KEY, pois_rest)
+        pois = lul.models.PointOfInterest.query()
 
         self.response.status = prestans.http.STATUS.OK
-        self.response.body = pois_rest
+        self.response.body = prestans.ext.data.adapters.ndb.adapt_persistent_collection(
+            pois,
+            lul.rest.models.PointOfInterest,
+            self.response.attribute_filter
+        )
     
     def post(self):
         location_rest = self.request.parsed_body
@@ -80,7 +75,7 @@ class Collection(lul.rest.handlers.Base):
             poi = lul.models.PointOfInterest.create(location_rest)
             poi.put()
         
-        memcache.delete(ALL_POI_CACHE_KEY)
+        #memcache.delete(ALL_POI_CACHE_KEY)
     
         self.response.status = prestans.http.STATUS.CREATED
         self.response.body = prestans.ext.data.adapters.ndb.adapt_persistent_instance(
