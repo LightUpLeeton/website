@@ -32,6 +32,7 @@ class Locations(lul.page.handlers.Base):
         )
 
         template_values = {
+            "locations_count": locations.count(),
             "locations": locations
         }
 

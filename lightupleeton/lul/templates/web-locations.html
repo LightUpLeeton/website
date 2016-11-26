@@ -11,28 +11,34 @@
 <body>
 	<div class="container">
 		<h1>Light up Leeton - Locations</h1>
-		<table>
-			<thead>
-				<tr>
-					<th>Address</th>
-					<th>Latitude</th>
-					<th>Longitude</th>
-					<th>Created</th>
-					<th>Last Updated</th>
-				</tr>
-			</thead>
-			<tbody>
-				{% for location in locations %}
-				<tr>
-					<td>{{location.location.address}}</td>
-					<td>{{location.location.latitude}}</td>
-					<td>{{location.location.longitude}}</td>
-					<td>{{location.created_date}}</td>
-					<td>{{location.updated_date}}</td>
-				</tr>
-				{% endfor %}
-			</tbody>
-		</table>
+        {%  if locations_count == 0 %}
+        <p>No locations found.</p>
+        {% else %}
+        <table>
+            <thead>
+                <tr>
+                    <th>Address</th>
+                    <th>Latitude</th>
+                    <th>Longitude</th>
+                    <th>Created</th>
+                    <th>Last Updated</th>
+                </tr>
+            </thead>
+            <tbody>
+
+                    {% for location in locations %}
+                    <tr>
+                        <td>{{location.location.address}}</td>
+                        <td>{{location.location.latitude}}</td>
+                        <td>{{location.location.longitude}}</td>
+                        <td>{{location.created_date}}</td>
+                        <td>{{location.updated_date}}</td>
+                    </tr>
+                    {% endfor %}
+
+            </tbody>
+        </table>
+        {%  endif %}
 	</div>
 </body>
 </html>
