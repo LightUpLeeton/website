@@ -1,3 +1,6 @@
 [submodule "ext/prestans"]
 	path = ext/prestans
 	url = https://github.com/anomaly/prestans.git
+[submodule "ext/pdfrw"]
+	path = ext/pdfrw
+	url = https://github.com/pmaupin/pdfrw.git

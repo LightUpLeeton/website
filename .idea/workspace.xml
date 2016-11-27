@@ -2,8 +2,15 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="29d87d4e-8135-45a2-9f91-8d31a5305d81" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/lightupleeton/lul/page/handlers/app.py" afterPath="$PROJECT_DIR$/lightupleeton/lul/page/handlers/app.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/lightupleeton/lul/templates/web-locations.html" afterPath="$PROJECT_DIR$/lightupleeton/lul/templates/web-locations.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/ext/pdfrw" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/lightupleeton/lul/page/handlers/pdf.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/lightupleeton/lul/templates/guide.html" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/lightupleeton/lul/page/handlers/app.py" afterPath="$PROJECT_DIR$/lightupleeton/lul/page/handlers/html.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gitmodules" afterPath="$PROJECT_DIR$/.gitmodules" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/website.iml" afterPath="$PROJECT_DIR$/.idea/website.iml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/lightupleeton/app.yaml" afterPath="$PROJECT_DIR$/lightupleeton/app.yaml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/lightupleeton/endpoints.py" afterPath="$PROJECT_DIR$/lightupleeton/endpoints.py" />
     </list>
     <ignored path="website.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -24,29 +31,37 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="app.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/lightupleeton/lul/page/handlers/app.py">
+      <file leaf-file-name="html.py" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/lightupleeton/lul/page/handlers/html.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="510">
-              <caret line="34" column="48" selection-start-line="34" selection-start-column="48" selection-end-line="34" selection-end-column="48" />
+            <state relative-caret-position="825">
+              <caret line="55" column="38" selection-start-line="55" selection-start-column="38" selection-end-line="55" selection-end-column="38" />
               <folding>
-                <element signature="e#0#48#0" expanded="true" />
+                <element signature="e#0#17#0" expanded="true" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="web-locations.html" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/lightupleeton/lul/templates/web-locations.html">
+      <file leaf-file-name="guide.html" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/lightupleeton/lul/templates/guide.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="210">
-              <caret line="14" column="30" selection-start-line="14" selection-start-column="30" selection-end-line="14" selection-end-column="30" />
+            <state relative-caret-position="300">
+              <caret line="20" column="40" selection-start-line="20" selection-start-column="40" selection-end-line="20" selection-end-column="40" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
     </leaf>
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Python Script" />
+        <option value="HTML File" />
+      </list>
+    </option>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -63,8 +78,13 @@
         <option value="$PROJECT_DIR$/lightupleeton/lul/templates/web.html" />
         <option value="$PROJECT_DIR$/lightupleeton/static/css/lul-web-full.css" />
         <option value="$PROJECT_DIR$/lightupleeton/lul/templates/web-full.html" />
-        <option value="$PROJECT_DIR$/lightupleeton/lul/page/handlers/app.py" />
         <option value="$PROJECT_DIR$/lightupleeton/lul/templates/web-locations.html" />
+        <option value="$PROJECT_DIR$/lightupleeton/lul/page/handlers/app.py" />
+        <option value="$PROJECT_DIR$/lightupleeton/app.yaml" />
+        <option value="$PROJECT_DIR$/lightupleeton/lul/page/handlers/pdf.py" />
+        <option value="$PROJECT_DIR$/lightupleeton/endpoints.py" />
+        <option value="$PROJECT_DIR$/lightupleeton/lul/templates/guide.html" />
+        <option value="$PROJECT_DIR$/lightupleeton/lul/page/handlers/html.py" />
       </list>
     </option>
   </component>
@@ -294,6 +314,7 @@
     <property name="project.structure.last.edited" value="Project" />
     <property name="project.structure.proportion" value="0.0" />
     <property name="project.structure.side.proportion" value="0.2" />
+    <property name="DefaultHtmlFileTemplate" value="HTML File" />
   </component>
   <component name="RunManager">
     <configuration default="true" type="#org.jetbrains.idea.devkit.run.PluginConfigurationType" factoryName="Plugin">
@@ -903,12 +924,12 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1480117808809</updated>
-      <workItem from="1480117811473" duration="2651000" />
+      <workItem from="1480117811473" duration="7916000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="2651000" />
+    <option name="totallyTimeSpent" value="7916000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="23" width="1920" height="1087" extended-state="6" />
@@ -964,14 +985,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/lightupleeton/lul/templates/web.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="180">
-          <caret line="12" column="102" selection-start-line="12" selection-start-column="80" selection-end-line="12" selection-end-column="102" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/lightupleeton/lul/templates/web-full.html">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="165">
@@ -996,21 +1009,63 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/lightupleeton/lul/page/handlers/app.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="510">
-          <caret line="34" column="48" selection-start-line="34" selection-start-column="48" selection-end-line="34" selection-end-column="48" />
-          <folding>
-            <element signature="e#0#48#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/lightupleeton/lul/templates/web-locations.html">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="210">
           <caret line="14" column="30" selection-start-line="14" selection-start-column="30" selection-end-line="14" selection-end-column="30" />
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/lightupleeton/app.yaml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="645">
+          <caret line="43" column="23" selection-start-line="43" selection-start-column="23" selection-end-line="43" selection-end-column="23" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/lightupleeton/lul/templates/web.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="180">
+          <caret line="12" column="100" selection-start-line="12" selection-start-column="86" selection-end-line="12" selection-end-column="100" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/lightupleeton/lul/page/handlers/pdf.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="75">
+          <caret line="5" column="12" selection-start-line="5" selection-start-column="12" selection-end-line="5" selection-end-column="12" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/lightupleeton/endpoints.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="195">
+          <caret line="13" column="44" selection-start-line="13" selection-start-column="44" selection-end-line="13" selection-end-column="44" />
+          <folding>
+            <element signature="e#0#14#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/lightupleeton/lul/templates/guide.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="300">
+          <caret line="20" column="40" selection-start-line="20" selection-start-column="40" selection-end-line="20" selection-end-column="40" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/lightupleeton/lul/page/handlers/html.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="825">
+          <caret line="55" column="38" selection-start-line="55" selection-start-column="38" selection-end-line="55" selection-end-column="38" />
+          <folding>
+            <element signature="e#0#17#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>

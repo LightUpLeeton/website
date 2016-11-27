@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Light up Leeton - Guide</title>
+    <style>
+        body {
+            margin: 0px;
+        }
+
+        #leeton {
+            margin-left: auto;
+            margin-right: auto;
+        }
+    </style>
+    <script>
+        window.addEventListener("load", function load(event) {
+            var maxHeight_ = 640;
+            var ratio_ = 1.41414141414141;
+
+            var mapWidth_ = Math.round(maxHeight_ / ratio_);
+            var mapHeight_ = maxHeight_;
+
+            var leetonUrl_ = "https://maps.googleapis.com/maps/api/staticmap?center={{CENTRE}}&zoom={{ZOOM}}&size="+mapWidth_+"x"+mapHeight_+"&scale=2&maptype=roadmap{{LEETON_MARKERS}}&key={{GOOGLE_API_KEY}}";
+            var leetonImg_ = document.getElementById("leeton");
+            leetonImg_.src = leetonUrl_;
+
+            console.log("{{LEETON_MARKERS}}");
+
+        }, this);
+    </script>
+</head>
+<body>
+<img id="leeton"/>
+</body>
+</html>

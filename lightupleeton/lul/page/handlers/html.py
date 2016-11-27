@@ -1,6 +1,3 @@
-from google.appengine.ext.webapp import template
-import os
-
 import lul.models
 import lul.page.handlers
 
@@ -38,6 +35,32 @@ class Locations(lul.page.handlers.Base):
 
         self.render_template("web-locations", template_values)
 
+
+class Guide(lul.page.handlers.Base):
+
+
+    def generate_marker_string(self, pois, colour="red", precision=4):
+
+        marker_string = "&markers=color:%s" % colour
+        for poi in pois:
+            marker_string += "%%7C%f,%f" % (poi.location.latitude, poi.location.longitude)
+
+        return marker_string
+
+    def get(self):
+
+        leeton_pois = lul.models.PointOfInterest.query()
+
+        template_values = {
+            "GOOGLE_API_KEY": self.google_api_key,
+            "CENTRE": "-34.553,146.400",
+            "LEETON_MARKERS": self.generate_marker_string(leeton_pois),
+            "ZOOM": 14
+        }
+
+        self.render_template("guide", template_values)
+
+
 class LetsEncryptHandler(lul.page.handlers.Base):
 
     def get(self, challenge):
@@ -46,3 +69,4 @@ class LetsEncryptHandler(lul.page.handlers.Base):
                     'p3w4zOwxmf2SherSZ7tOtTkrvYL45y156essjJFMW5o': 'p3w4zOwxmf2SherSZ7tOtTkrvYL45y156essjJFMW5o.HNbU1uUcwn5AWt_OMA6FoJBkcibXcKeRi_W6eT3LRq8'
                 }
         self.response.write(responses.get(challenge, ''))
+

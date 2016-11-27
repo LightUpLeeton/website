@@ -41,7 +41,7 @@ handlers:
 #   script: endpoints.cron
 
 - url: .*
-  script: endpoints.app
+  script: endpoints.web
   secure: always
 
 env_variables:
