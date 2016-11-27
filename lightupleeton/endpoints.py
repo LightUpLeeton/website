@@ -2,8 +2,8 @@ import webapp2
 
 import prestans.rest
 
+import lul.cron.handlers.point_of_interest
 import lul.page.handlers.html
-import lul.page.handlers.pdf
 import lul.rest.handlers.location
 
 web = webapp2.WSGIApplication([
@@ -12,6 +12,10 @@ web = webapp2.WSGIApplication([
     ('/locations', lul.page.handlers.html.Locations),
 
     ('/guide', lul.page.handlers.html.Guide)
+])
+
+cron = prestans.rest.RequestRouter([
+    (r'/cron/point-of-interest/touch', lul.cron.handlers.point_of_interest.Touch)
 ])
 
 api = prestans.rest.RequestRouter([

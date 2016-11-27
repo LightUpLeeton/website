@@ -4,6 +4,7 @@ from google.appengine.ext import ndb
 import lul.cron.handlers
 import lul.models
 
+
 class MigrateReset(lul.cron.handlers.Base):
 
     def get(self):
@@ -17,6 +18,7 @@ class MigrateReset(lul.cron.handlers.Base):
 
         if to_save:
             db.put(to_save)
+
 
 class Migrate(lul.cron.handlers.Base):
         

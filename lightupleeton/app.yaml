@@ -37,8 +37,9 @@ handlers:
   script: endpoints.api
   secure: always
 
-# - url: /cron/.*
-#   script: endpoints.cron
+- url: /cron/.*
+  script: endpoints.cron
+  login: admin
 
 - url: .*
   script: endpoints.web

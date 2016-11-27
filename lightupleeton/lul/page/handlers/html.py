@@ -44,7 +44,6 @@ LEETON_MAX_LNG = 146.42093181610107
 
 class Guide(lul.page.handlers.Base):
 
-
     def generate_marker_string(self, pois, colour="red", precision=4):
 
         # fallback for no markers
