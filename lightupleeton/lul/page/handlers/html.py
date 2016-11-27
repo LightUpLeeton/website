@@ -70,7 +70,7 @@ class Guide(lul.page.handlers.Base):
 
         template_values = {
             "GOOGLE_API_KEY": self.google_api_key,
-            "CENTRE": "-34.553,146.400",
+            "CENTRE": "-34.553,146.402",
             "LEETON_MARKERS": self.generate_marker_string(leeton_pois),
             "ZOOM": 14
         }
