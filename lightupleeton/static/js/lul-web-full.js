@@ -2,9 +2,11 @@ var map;
 var userMarker = null;
 var locations = new Array();
 var markers = new Array();
-var locating = false;
-var geocoder_ = new google.maps.Geocoder();
 var latLngBounds_ = null;
+
+function displayLatLng(latLng) {
+    console.log(latLng.lat(), latLng.lng());
+}
 
 function initializeMap() {
     var mapOptions = {
@@ -17,6 +19,10 @@ function initializeMap() {
     
     //Initial location fetch
     fetchLocations();
+
+    google.maps.event.addListener(map, 'mousemove', function (event) {
+        displayLatLng(event.latLng);
+    });
     
 }
 //Hook up the map event
