@@ -1,5 +1,1 @@
 cron:
-- description: triggers update of data
-  url: /cron/point-of-interest/touch
-  target: default
-  schedule: every 1 minutes
