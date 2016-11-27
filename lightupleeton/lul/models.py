@@ -19,17 +19,12 @@ class POILocation(ndb.Model):
     description = ndb.StringProperty(required=True)
     geo_point = ndb.GeoPtProperty(required=True)
 
+    latitude = ndb.ComputedProperty(lambda self: self.geo_point.lat)
+    longitude = ndb.ComputedProperty(lambda self: self.geo_point.lon)
+
     @property
     def address(self):
         return self.description
-
-    @property
-    def latitude(self):
-        return self.geo_point.lat
-
-    @property
-    def longitude(self):
-        return self.geo_point.lon
 
 
 class PointOfInterest(ndb.Model):

@@ -20,7 +20,7 @@ function initializeMap() {
     //Initial location fetch
     fetchLocations();
 
-    google.maps.event.addListener(map, 'mousemove', function (event) {
+    google.maps.event.addListener(map, 'mouseup', function (event) {
         displayLatLng(event.latLng);
     });
     

@@ -36,13 +36,31 @@ class Locations(lul.page.handlers.Base):
         self.render_template("web-locations", template_values)
 
 
+LEETON_MIN_LAT = -34.53155583908121
+LEETON_MAX_LAT = -34.57432351042673
+LEETON_MIN_LNG = 146.38411045074463
+LEETON_MAX_LNG = 146.42093181610107
+
+
 class Guide(lul.page.handlers.Base):
 
 
     def generate_marker_string(self, pois, colour="red", precision=4):
 
+        # fallback for no markers
+        if pois.count() == 0:
+            return ""
+
         marker_string = "&markers=color:%s" % colour
         for poi in pois:
+
+            # exclude if outside acceptable ranges
+            if poi.location.latitude < LEETON_MIN_LAT or \
+               poi.location.latitude > LEETON_MAX_LAT or \
+               poi.location.longitude < LEETON_MIN_LNG or \
+               poi.location.longitude > LEETON_MAX_LNG:
+                continue
+
             marker_string += "%%7C%f,%f" % (poi.location.latitude, poi.location.longitude)
 
         return marker_string
