@@ -83,7 +83,7 @@ class LetsEncryptHandler(lul.page.handlers.Base):
     def get(self, challenge):
         self.response.headers['Content-Type'] = 'text/plain'
         responses = {
-                    'p3w4zOwxmf2SherSZ7tOtTkrvYL45y156essjJFMW5o': 'p3w4zOwxmf2SherSZ7tOtTkrvYL45y156essjJFMW5o.HNbU1uUcwn5AWt_OMA6FoJBkcibXcKeRi_W6eT3LRq8'
+                    '4x1UbfmifwnDcJh-kHBaJpSkkBvo5DHIDCeMDvKNy_Y': '4x1UbfmifwnDcJh-kHBaJpSkkBvo5DHIDCeMDvKNy_Y.rz4wOLBFKvEfTZUTA7lH2QjijEV26Sx6yGR7IgxAOwY'
                 }
         self.response.write(responses.get(challenge, ''))
 
